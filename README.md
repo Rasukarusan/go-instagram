@@ -6,6 +6,7 @@ Instagramぶっこ抜き用APIサーバー
 
 ![Demo](https://user-images.githubusercontent.com/17779386/58763844-7fad4e00-859b-11e9-958c-de0cedc60b72.gif)
 
+これのサーバー側をGoでやる。
 
 ## Description
 
