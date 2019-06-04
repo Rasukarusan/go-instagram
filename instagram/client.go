@@ -1,9 +1,9 @@
 package api
 
-import(
-    "strings"
-    "regexp"
-    "encoding/json"
+import (
+	"encoding/json"
+	"regexp"
+	"strings"
 )
 
 /**
@@ -11,20 +11,21 @@ import(
  * json.NewDecoderではなくjson.Unmarshalを使用する
  */
 func (c Client) DecodeHTMLToJSON(html string) (*InstagramResponse, error) {
-    r := regexp.MustCompile(`window._sharedData = {.*}`)
-    jsonStr := strings.Replace(r.FindStringSubmatch(html)[0], "window._sharedData = ", "", 1)
-    bytes := []byte(jsonStr)
-    var response InstagramResponse
-    err := json.Unmarshal(bytes, &response)
-    if err != nil {
-        return nil, err
-    }
-    return &response, err
+	r := regexp.MustCompile(`window._sharedData = {.*}`)
+	jsonStr := strings.Replace(r.FindStringSubmatch(html)[0], "window._sharedData = ", "", 1)
+	bytes := []byte(jsonStr)
+	var response InstagramResponse
+	err := json.Unmarshal(bytes, &response)
+	if err != nil {
+		return nil, err
+	}
+	return &response, err
 }
 
 /**
  * @TODO 空実装
  */
 type Client struct{}
-func (c Client) NewClient(){}
-func (c Client) NewRequest(){}
+
+func (c Client) NewClient()  {}
+func (c Client) NewRequest() {}
