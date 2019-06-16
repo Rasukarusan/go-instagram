@@ -47,14 +47,15 @@ func (c *Client) NewRequest(method, path string, body io.Reader) (*http.Request,
 }
 
 // アプリ側に返す結果、JSONの構造体
+type Result struct {
 	Username string
 	ImageURL string
 	PostText string
 	// OrgURL string
 }
 
-func (c *Client) GetPost(targetURL string) (*Post, error) {
 // InstagramにcURL→整形→JSONで結果を返す
+func (c *Client) GetResult(targetURL string) (*Result, error) {
 	req, err := c.NewRequest("GET", targetURL, nil)
 	if err != nil {
 		return nil, err
@@ -69,7 +70,7 @@ func (c *Client) GetPost(targetURL string) (*Post, error) {
 		return nil, err
 	}
 
-	return &Post{
+	return &Result{
 		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.DisplayURL,
 		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.Owner.Username,
 		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.EdgeMediaToCaption.Edges[0].Node.Text,
