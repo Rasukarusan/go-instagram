@@ -18,6 +18,7 @@ import (
 const baseURL = "https://www.instagram.com"
 
 type Client struct {
+	// 現状URLは使用していない。APIClientの形として書いているだけ。
 	URL        *url.URL
 	HTTPClient *http.Client
 }
@@ -46,7 +47,7 @@ func (c *Client) NewRequest(method, path string, body io.Reader) (*http.Request,
 	return req, nil
 }
 
-// アプリ側に返す結果、JSONの構造体
+// アプリ側に返す結果
 type Result struct {
 	Username string
 	ImageURL string
