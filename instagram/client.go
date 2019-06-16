@@ -1,4 +1,4 @@
-package api
+package instagram
 
 import (
 	"encoding/json"
