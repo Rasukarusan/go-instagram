@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/ant0ine/go-json-rest/rest"
-	"instagram/instagram"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
+	"scraping/instagram"
+
+	"github.com/ant0ine/go-json-rest/rest"
 )
 
 type postParam struct {
@@ -86,7 +87,7 @@ func decode(resp *http.Response) postResult {
 	}
 	defer resp.Body.Close()
 
-	c := api.Client{}
+	c := instagram.Client{}
 	res, err := c.DecodeHTMLToJSON(string(body))
 	if err != nil {
 		fmt.Println(err)

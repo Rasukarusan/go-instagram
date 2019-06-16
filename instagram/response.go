@@ -1,4 +1,4 @@
-package api
+package instagram
 
 /**
  * InstagramのHTML内JSONの構造体
