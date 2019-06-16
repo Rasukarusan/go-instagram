@@ -1,3 +1,8 @@
+/*
+InstagramのAPIClient
+
+InstagramのAPIを使用している訳ではなく、cURLした結果をデコードして返す
+*/
 package instagram
 
 import (
@@ -41,17 +46,15 @@ func (c *Client) NewRequest(method, path string, body io.Reader) (*http.Request,
 	return req, nil
 }
 
-type Post struct {
+// アプリ側に返す結果、JSONの構造体
 	Username string
 	ImageURL string
 	PostText string
 	// OrgURL string
 }
 
-/**
- * InstagramにCurl→整形→JSONでレスポンス
- */
 func (c *Client) GetPost(targetURL string) (*Post, error) {
+// InstagramにcURL→整形→JSONで結果を返す
 	req, err := c.NewRequest("GET", targetURL, nil)
 	if err != nil {
 		return nil, err
@@ -73,10 +76,7 @@ func (c *Client) GetPost(targetURL string) (*Post, error) {
 	}, nil
 }
 
-/**
- * HTML内のJSONをgrepの要領で抜き出しており、io.Reader型ではなくJSON文字列で処理するため、
- * json.NewDecoderではなくjson.Unmarshalを使用する
- */
+// cURLして得られたhtmlからJSONを抜き出しデコード
 func decode(resp *http.Response) (*InstagramResponse, error) {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -88,6 +88,9 @@ func decode(resp *http.Response) (*InstagramResponse, error) {
 	r := regexp.MustCompile(`window._sharedData = {.*}`)
 	jsonStr := strings.Replace(r.FindStringSubmatch(html)[0], "window._sharedData = ", "", 1)
 	bytes := []byte(jsonStr)
+
+	// HTML内のJSONをgrepの要領で抜き出しており、io.Reader型ではなくJSON文字列で処理するため、
+	// json.NewDecoderではなくjson.Unmarshalを使用する
 	var response InstagramResponse
 	err = json.Unmarshal(bytes, &response)
 	if err != nil {
