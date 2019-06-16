@@ -7,6 +7,7 @@ package instagram
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -67,8 +68,9 @@ func (c *Client) GetResult(targetURL string) (*Result, error) {
 	}
 
 	decoded, err := decode(res)
+	// decodeに失敗した場合はエラーではなくResultの形で返す
 	if err != nil {
-		return nil, err
+		return &Result{err.Error(), "", "", ""}, nil
 	}
 
 	return &Result{
@@ -89,6 +91,9 @@ func decode(resp *http.Response) (*InstagramResponse, error) {
 	html := string(body)
 
 	r := regexp.MustCompile(`window._sharedData = {.*}`)
+	if len(r.FindStringSubmatch(html)) == 0 {
+		return nil, fmt.Errorf("取得できませんでした")
+	}
 	jsonStr := strings.Replace(r.FindStringSubmatch(html)[0], "window._sharedData = ", "", 1)
 	bytes := []byte(jsonStr)
 
