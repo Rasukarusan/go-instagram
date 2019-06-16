@@ -30,7 +30,7 @@ func (p Post) List(w rest.ResponseWriter, req *rest.Request) {
 	}
 
 	client := instagram.NewClient()
-	resp, err := client.GetPost(param.URL)
+	resp, err := client.GetResult(param.URL)
 
 	w.WriteJson(resp)
 }
