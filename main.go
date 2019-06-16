@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 	"scraping/instagram"
 
 	"github.com/ant0ine/go-json-rest/rest"
@@ -65,18 +64,12 @@ func postInstagram(w rest.ResponseWriter, req *rest.Request) {
  * InstagramからHTMLBodyを取得
  */
 func fetch(targetURL string) (*http.Response, error) {
-	resp := &http.Response{}
-	endpointURL, err := url.Parse(targetURL)
+	client := instagram.NewClient()
+	req, err := client.NewRequest("GET", targetURL, nil)
 	if err != nil {
 		return nil, err
 	}
-	resp, err = http.DefaultClient.Do(&http.Request{
-		URL:    endpointURL,
-		Method: "GET",
-		Header: http.Header{
-			"Content-Type": {"text/html; charset=utf-8"},
-		},
-	})
+	resp, err := http.DefaultClient.Do(req)
 	return resp, err
 }
 
