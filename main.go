@@ -11,6 +11,17 @@ import (
 func main() {
 	api := rest.NewApi()
 	api.Use(rest.DefaultDevStack...)
+	api.Use(&rest.CorsMiddleware{
+		RejectNonCorsRequests: true,
+		OriginValidator: func(origin string, request *rest.Request) bool {
+			return origin == "http://localhost:9001"
+		},
+		AllowedMethods: []string{"POST"},
+		AllowedHeaders: []string{
+			"Accept", "Content-Type", "X-Custom-Header", "Origin"},
+		AccessControlAllowCredentials: true,
+		AccessControlMaxAge:           3600,
+	})
 	handler := handlers.Post{}
 	router, err := rest.MakeRouter(
 		rest.Post("/instagram", handler.List),
