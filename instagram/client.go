@@ -74,8 +74,8 @@ func (c *Client) GetResult(targetURL string) (*Result, error) {
 	}
 
 	return &Result{
-		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.DisplayURL,
 		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.Owner.Username,
+		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.DisplayURL,
 		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.EdgeMediaToCaption.Edges[0].Node.Text,
 		targetURL,
 	}, nil
