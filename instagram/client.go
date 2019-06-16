@@ -3,6 +3,7 @@ package instagram
 import (
 	"encoding/json"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -40,16 +41,55 @@ func (c *Client) NewRequest(method, path string, body io.Reader) (*http.Request,
 	return req, nil
 }
 
+type Post struct {
+	Username string
+	ImageURL string
+	PostText string
+	// OrgURL string
+}
+
+/**
+ * InstagramにCurl→整形→JSONでレスポンス
+ */
+func (c *Client) GetPost(targetURL string) (*Post, error) {
+	req, err := c.NewRequest("GET", targetURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	decoded, err := decode(res)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Post{
+		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.DisplayURL,
+		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.Owner.Username,
+		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.EdgeMediaToCaption.Edges[0].Node.Text,
+	}, nil
+}
+
 /**
  * HTML内のJSONをgrepの要領で抜き出しており、io.Reader型ではなくJSON文字列で処理するため、
  * json.NewDecoderではなくjson.Unmarshalを使用する
  */
-func (c Client) DecodeHTMLToJSON(html string) (*InstagramResponse, error) {
+func decode(resp *http.Response) (*InstagramResponse, error) {
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	html := string(body)
+
 	r := regexp.MustCompile(`window._sharedData = {.*}`)
 	jsonStr := strings.Replace(r.FindStringSubmatch(html)[0], "window._sharedData = ", "", 1)
 	bytes := []byte(jsonStr)
 	var response InstagramResponse
-	err := json.Unmarshal(bytes, &response)
+	err = json.Unmarshal(bytes, &response)
 	if err != nil {
 		return nil, err
 	}
