@@ -51,7 +51,7 @@ type Result struct {
 	Username string
 	ImageURL string
 	PostText string
-	// OrgURL string
+	OrgURL   string
 }
 
 // InstagramにcURL→整形→JSONで結果を返す
@@ -74,6 +74,7 @@ func (c *Client) GetResult(targetURL string) (*Result, error) {
 		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.DisplayURL,
 		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.Owner.Username,
 		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.EdgeMediaToCaption.Edges[0].Node.Text,
+		targetURL,
 	}, nil
 }
 
