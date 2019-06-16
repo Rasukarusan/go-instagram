@@ -10,8 +10,9 @@ Instagramぶっこ抜き用APIサーバー
 
 ## Description
 
-App or cURL ⇄  go-instagram ⇄  Instagram(Scraping)
+App or cURL ⇄  go-instagram ⇄  Instagram(Scraping)  
 
+イメージ(理想)
 ![理想](https://user-images.githubusercontent.com/17779386/59564387-27894800-9081-11e9-84f3-30b97b3284a5.png)
 
 
