@@ -10,7 +10,7 @@ import (
 type Post struct{}
 
 type postParam struct {
-	URL string
+	URLs []string
 }
 
 /**
@@ -24,13 +24,12 @@ func (p Post) List(w rest.ResponseWriter, req *rest.Request) {
 		return
 	}
 
-	if param.URL == "" {
-		rest.Error(w, "URL is required", 400)
-		return
+	for _, URL := range param.URLs {
+		client := instagram.NewClient()
+		resp, err := client.GetResult(URL)
+		if err != nil {
+			return
+		}
+		w.WriteJson(resp)
 	}
-
-	client := instagram.NewClient()
-	resp, err := client.GetResult(param.URL)
-
-	w.WriteJson(resp)
 }
