@@ -23,13 +23,14 @@ func (p Post) List(w rest.ResponseWriter, req *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
+	resps := []*instagram.Result{}
 	for _, URL := range param.URLs {
 		client := instagram.NewClient()
 		resp, err := client.GetResult(URL)
 		if err != nil {
 			return
 		}
-		w.WriteJson(resp)
+		resps = append(resps, resp)
 	}
+	w.WriteJson(resps)
 }
