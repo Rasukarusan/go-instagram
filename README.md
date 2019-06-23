@@ -7,7 +7,7 @@ Instagramぶっこ抜き用APIサーバー
 ![Demo](https://user-images.githubusercontent.com/17779386/59974954-5bb6b880-95ed-11e9-9eb3-56627862e1c8.gif)
 
 
-これのサーバー側をGoでやる。
+[これ](https://github.com/Rasukarusan/instagram-client)のサーバー側をGoでやる。
 
 ## Description
 
