@@ -54,23 +54,24 @@ type Result struct {
 	ImageURL string
 	PostText string
 	OrgURL   string
+	Err      string
 }
 
 // InstagramにcURL→整形→JSONで結果を返す
-func (c *Client) GetResult(targetURL string) (*Result, error) {
+func (c *Client) GetResult(targetURL string) *Result {
 	req, err := c.NewRequest("GET", targetURL, nil)
 	if err != nil {
-		return nil, err
+		return &Result{"", "", "", "", err.Error()}
 	}
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, err
+		return &Result{"", "", "", "", err.Error()}
 	}
 
 	decoded, err := decode(res)
 	// decodeに失敗した場合はエラーではなくResultの形で返す
 	if err != nil {
-		return &Result{err.Error(), "", "", ""}, nil
+		return &Result{"", "", "", "", err.Error()}
 	}
 
 	return &Result{
@@ -78,7 +79,8 @@ func (c *Client) GetResult(targetURL string) (*Result, error) {
 		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.DisplayURL,
 		decoded.EntryData.PostPage[0].Graphql.ShortCodeMedia.EdgeMediaToCaption.Edges[0].Node.Text,
 		targetURL,
-	}, nil
+		"",
+	}
 }
 
 // cURLして得られたhtmlからJSONを抜き出しデコード

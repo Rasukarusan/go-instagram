@@ -24,12 +24,16 @@ func (p Post) List(w rest.ResponseWriter, req *rest.Request) {
 		return
 	}
 	resps := []*instagram.Result{}
+	ch := make(chan *instagram.Result, len(param.URLs))
 	for _, URL := range param.URLs {
 		client := instagram.NewClient()
-		resp, err := client.GetResult(URL)
-		if err != nil {
-			return
-		}
+		// resp := client.GetResult(URL)
+		go func(url string) {
+			ch <- client.GetResult(url)
+		}(URL)
+	}
+	for range param.URLs {
+		resp := <-ch
 		resps = append(resps, resp)
 	}
 	w.WriteJson(resps)
