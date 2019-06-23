@@ -16,7 +16,7 @@ func main() {
 	api.Use(&rest.CorsMiddleware{
 		RejectNonCorsRequests: true,
 		OriginValidator: func(origin string, request *rest.Request) bool {
-			return origin == "https://rasukarusan.github.io/instagram-client/"
+			return origin == "https://rasukarusan.github.io"
 		},
 		AllowedMethods: []string{"POST"},
 		AllowedHeaders: []string{
