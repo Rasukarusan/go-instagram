@@ -27,12 +27,12 @@ go-instagram response the following.
 ## Usage
 
 ```bash
-# Use port 9000
+$ export PORT=9000
 $ go run main.go
 
 # Post request
 $ curl -X POST \
-        -H "Origin:http://localhost:9001" \
+        -H "Origin:https://rasukarusan.github.io/instagram-client" \
         -H "Content-Type:application/json" \
         http://127.0.0.1:9000/instagram \
         -d '{"URLs":["https://www.instagram.com/p/XXXX/","https://www.instagram.com/p/YYYYY/"]}' | jq
@@ -43,7 +43,7 @@ $ curl -X POST \
 
 ```bash
 curl -s -X POST \
-         -H "Origin:http://localhost:9001" \
+         -H "Origin:https://rasukarusan.github.io/instagram-client" \
          -H "Content-Type:application/json" \
          http://127.0.0.1:9000/instagram \
          -d '{"URLs":["https://www.instagram.com/p/By2CAExjikt/","https://www.instagram.com/p/ByNfe47AvR7/"]}' | jq
