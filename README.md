@@ -4,7 +4,8 @@ Instagramぶっこ抜き用APIサーバー
 
 ## Demo(Client)
 
-![Demo](https://user-images.githubusercontent.com/17779386/58763844-7fad4e00-859b-11e9-958c-de0cedc60b72.gif)
+![Demo](https://user-images.githubusercontent.com/17779386/59974954-5bb6b880-95ed-11e9-9eb3-56627862e1c8.gif)
+
 
 これのサーバー側をGoでやる。
 
