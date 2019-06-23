@@ -26,13 +26,19 @@ go-instagram response the following.
 
 ## Usage
 
+### Access By Browser
+
+https://rasukarusan.github.io/instagram-client/
+
+### Access By localhost 
+
 ```bash
 $ export PORT=9000
 $ go run main.go
 
 # Post request
 $ curl -X POST \
-        -H "Origin:https://rasukarusan.github.io/instagram-client" \
+        -H "Origin:https://rasukarusan.github.io" \
         -H "Content-Type:application/json" \
         http://127.0.0.1:9000/instagram \
         -d '{"URLs":["https://www.instagram.com/p/XXXX/","https://www.instagram.com/p/YYYYY/"]}' | jq
@@ -43,7 +49,7 @@ $ curl -X POST \
 
 ```bash
 curl -s -X POST \
-         -H "Origin:https://rasukarusan.github.io/instagram-client" \
+         -H "Origin:https://rasukarusan.github.io" \
          -H "Content-Type:application/json" \
          http://127.0.0.1:9000/instagram \
          -d '{"URLs":["https://www.instagram.com/p/By2CAExjikt/","https://www.instagram.com/p/ByNfe47AvR7/"]}' | jq
@@ -66,9 +72,3 @@ curl -s -X POST \
   }
 ]
 ```
-
-## Todo
-
-- 複数URL
-- 非同期
-
