@@ -3,18 +3,20 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"scraping/handlers"
 
 	"github.com/ant0ine/go-json-rest/rest"
 )
 
 func main() {
+
 	api := rest.NewApi()
 	api.Use(rest.DefaultDevStack...)
 	api.Use(&rest.CorsMiddleware{
 		RejectNonCorsRequests: true,
 		OriginValidator: func(origin string, request *rest.Request) bool {
-			return origin == "http://localhost:9001"
+			return origin == "https://rasukarusan.github.io/instagram-client"
 		},
 		AllowedMethods: []string{"POST"},
 		AllowedHeaders: []string{
@@ -30,5 +32,6 @@ func main() {
 		log.Fatal(err)
 	}
 	api.SetApp(router)
-	log.Fatal(http.ListenAndServe(":9000", api.MakeHandler()))
+	port := os.Getenv("PORT")
+	log.Fatal(http.ListenAndServe(":"+port, api.MakeHandler()))
 }
